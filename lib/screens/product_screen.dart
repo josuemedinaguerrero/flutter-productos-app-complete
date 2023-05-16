@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
 import 'package:productos_app/providers/product_form_provider.dart';
 import 'package:productos_app/services/services.dart';
 import 'package:productos_app/ui/input_decorations.dart';
 import 'package:productos_app/widgets/widgets.dart';
+
 import 'package:provider/provider.dart';
 
 class ProductScreen extends StatelessWidget {
@@ -20,14 +23,17 @@ class ProductScreen extends StatelessWidget {
 }
 
 class _ProducScreenBody extends StatelessWidget {
-  const _ProducScreenBody({required this.productsService});
-
   final ProductsService productsService;
+
+  const _ProducScreenBody({required this.productsService});
 
   @override
   Widget build(BuildContext context) {
+    final productForm = Provider.of<ProductFormProvider>(context);
+
     return Scaffold(
       body: SingleChildScrollView(
+        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
         child: Column(
           children: [
             Stack(
@@ -56,7 +62,10 @@ class _ProducScreenBody extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.save_outlined),
-        onPressed: () {},
+        onPressed: () {
+          if (!productForm.isValidForm()) return;
+          productsService.saveOrCreateProduct(productForm.product);
+        },
       ),
     );
   }
@@ -75,11 +84,13 @@ class _ProductForm extends StatelessWidget {
         width: double.infinity,
         decoration: _buildBoxDecoration(),
         child: Form(
+          key: productForm.formKey,
           child: Column(
             children: [
               const SizedBox(height: 10),
               TextFormField(
                 initialValue: product.name,
+                autovalidateMode: AutovalidateMode.onUserInteraction,
                 onChanged: (value) => product.name = value,
                 decoration: InputDecorations.authInputDecoration(hintText: 'Nombre del producto', labelText: 'Nombre:'),
                 validator: (value) {
@@ -89,6 +100,7 @@ class _ProductForm extends StatelessWidget {
               const SizedBox(height: 30),
               TextFormField(
                 initialValue: '${product.price}',
+                inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))],
                 onChanged: (value) => double.tryParse(value) == null ? product.price = 0 : product.price = double.parse(value),
                 keyboardType: TextInputType.number,
                 decoration: InputDecorations.authInputDecoration(hintText: '\$150', labelText: 'Precio:'),
@@ -98,9 +110,7 @@ class _ProductForm extends StatelessWidget {
                 value: product.available,
                 activeColor: Colors.indigo,
                 title: const Text('Disponible'),
-                onChanged: (value) {
-                  print('Value: $value');
-                },
+                onChanged: productForm.updateAvailability,
               ),
               const SizedBox(height: 30),
             ],
@@ -122,5 +132,3 @@ class _ProductForm extends StatelessWidget {
         ],
       );
 }
-
-// FilteringTextInputFormatter.allow(RegExp(r'^(\d+)?\.?\d{0,2}'))
