@@ -25,10 +25,7 @@ class ProductScreen extends StatelessWidget {
                 Positioned(
                   top: 40,
                   right: 30,
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: const Icon(Icons.camera_alt_outlined, size: 40, color: Colors.white),
-                  ),
+                  child: IconButton(onPressed: () {}, icon: const Icon(Icons.camera_alt_outlined, size: 40, color: Colors.white)),
                 ),
               ],
             ),
@@ -59,19 +56,11 @@ class _ProductForm extends StatelessWidget {
           child: Column(
             children: [
               const SizedBox(height: 10),
-              TextFormField(
-                decoration: InputDecorations.authInputDecoration(
-                  hintText: 'Nombre del producto',
-                  labelText: 'Nombre:',
-                ),
-              ),
+              TextFormField(decoration: InputDecorations.authInputDecoration(hintText: 'Nombre del producto', labelText: 'Nombre:')),
               const SizedBox(height: 30),
               TextFormField(
                 keyboardType: TextInputType.number,
-                decoration: InputDecorations.authInputDecoration(
-                  hintText: '\$150',
-                  labelText: 'Precio:',
-                ),
+                decoration: InputDecorations.authInputDecoration(hintText: '\$150', labelText: 'Precio:'),
               ),
               const SizedBox(height: 30),
               SwitchListTile.adaptive(
@@ -92,10 +81,7 @@ class _ProductForm extends StatelessWidget {
 
   BoxDecoration _buildBoxDecoration() => BoxDecoration(
         color: Colors.white,
-        borderRadius: const BorderRadius.only(
-          bottomRight: Radius.circular(25),
-          bottomLeft: Radius.circular(25),
-        ),
+        borderRadius: const BorderRadius.only(bottomRight: Radius.circular(25), bottomLeft: Radius.circular(25)),
         boxShadow: [
           BoxShadow(
             color: Colors.black.withOpacity(0.05),
