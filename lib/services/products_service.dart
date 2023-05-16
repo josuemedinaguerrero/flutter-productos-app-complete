@@ -1,13 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:productos_app/models/models.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'dart:io';
+
+import 'package:productos_app/models/models.dart';
+
+import 'package:http/http.dart' as http;
 
 class ProductsService extends ChangeNotifier {
   final String _baseUrl = 'flutter-course-84e69-default-rtdb.firebaseio.com';
   final List<Product> products = [];
   late Product selectedProduct;
   bool isLoading = true;
+  File? newPictureFile;
 
   ProductsService() {
     loadProducts();
@@ -66,5 +70,12 @@ class ProductsService extends ChangeNotifier {
     products.add(product);
 
     return product.id!;
+  }
+
+  void updateSelectedProductImage(String path) {
+    selectedProduct.picture = path;
+    newPictureFile = File.fromUri(Uri(path: path));
+
+    notifyListeners();
   }
 }
