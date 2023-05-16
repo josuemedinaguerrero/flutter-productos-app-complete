@@ -79,7 +79,7 @@ class _ProductDetails extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-            Text('Id del disco duro: $subTitle', style: const TextStyle(fontSize: 15, color: Colors.white)),
+            Text('$subTitle', style: const TextStyle(fontSize: 15, color: Colors.white)),
           ],
         ),
       ),
