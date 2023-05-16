@@ -47,11 +47,9 @@ class _BackgroundImage extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: 400,
-        child: FadeInImage(
-          placeholder: const AssetImage('assets/jar-loading.gif'),
-          image: NetworkImage(url ?? ''),
-          fit: BoxFit.cover,
-        ),
+        child: url == null
+            ? const Image(image: AssetImage('assets/no-image.png'), fit: BoxFit.cover)
+            : FadeInImage(placeholder: const AssetImage('assets/jar-loading.gif'), image: NetworkImage(url!), fit: BoxFit.cover),
       ),
     );
   }
@@ -101,8 +99,6 @@ class _PriceTag extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(price);
-
     return Container(
       width: 100,
       height: 70,

@@ -6,6 +6,7 @@ import 'dart:convert';
 class ProductsService extends ChangeNotifier {
   final String _baseUrl = 'flutter-course-84e69-default-rtdb.firebaseio.com';
   final List<Product> products = [];
+  late Product selectedProduct;
   bool isLoading = true;
 
   ProductsService() {
