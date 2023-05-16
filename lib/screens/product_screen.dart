@@ -112,6 +112,7 @@ class _ProductForm extends StatelessWidget {
                 decoration: InputDecorations.authInputDecoration(hintText: 'Nombre del producto', labelText: 'Nombre:'),
                 validator: (value) {
                   if (value == null || value.isEmpty) return 'El nombre es obligatorio';
+                  return null;
                 },
               ),
               const SizedBox(height: 30),
